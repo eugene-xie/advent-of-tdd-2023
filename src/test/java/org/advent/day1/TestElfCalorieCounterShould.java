@@ -7,6 +7,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.nio.Buffer;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -43,5 +44,23 @@ public class TestElfCalorieCounterShould {
                 .thenReturn(null);
         elfCalorieCounter = new ElfCalorieCounter(mockReader);
         assertThat(elfCalorieCounter.maxCalories(), equalTo(10_000));
+    }
+
+    @Test
+    void shuold_get_top_3_elf_with_most_calories(@Mock BufferedReader mockReader) throws IOException {
+        when (mockReader.readLine()).thenReturn("2000")
+                .thenReturn("1000")
+                .thenReturn("")
+                .thenReturn("8000")
+                .thenReturn("")
+                .thenReturn("3000")
+                .thenReturn("2000")
+                .thenReturn("")
+                .thenReturn("4000")
+                .thenReturn("")
+                .thenReturn("7000")
+                .thenReturn(null);
+        elfCalorieCounter = new ElfCalorieCounter(mockReader);
+        assertThat(elfCalorieCounter.topNCaloriesInTotal(3), equalTo(20000));
     }
 }

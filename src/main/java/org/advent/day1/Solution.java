@@ -15,5 +15,6 @@ public static void main(String[] args) {
         BufferedReader reader = new BufferedReader(streamReader);
         ElfCalorieCounter elfCalorieCounter = new ElfCalorieCounter(reader);
         System.out.println("Max Calories: " + elfCalorieCounter.maxCalories());
+        System.out.println("Top 3 Calories: " + elfCalorieCounter.topNCaloriesInTotal(3));
     }
 }
