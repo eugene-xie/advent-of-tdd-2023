@@ -5,6 +5,30 @@ import java.util.regex.Pattern;
 
 public class Calibration {
 
+    public static void main(String[] args) {
+        int d1 = 0;
+
+        d1 = getCalVal("9oneight");
+        System.out.println(d1);
+    }
+
+    public static int toInt(String intStr) {
+        String[] numbers = { "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine" };
+        int d1 = 0;
+
+        if (intStr.length() == 1) {
+            d1 = Integer.valueOf(intStr);
+        } else {
+            for (int i = 0; i < 10; i++) {
+                if (numbers[i].equalsIgnoreCase(intStr)) {
+                    d1 = i;
+                    break;
+                }
+            }
+        }
+        return d1;
+    }
+
     /*
      * Get the 1st digit from a given string and combine them into a 2-digit number
      * Input:
@@ -15,8 +39,8 @@ public class Calibration {
      */
     public static int get1stDigit(String aSring) {
         int calVal = 0;
-        
-        Matcher matcher = Pattern.compile("\\d").matcher(aSring);
+
+        Matcher matcher = Pattern.compile("\\d|one").matcher(aSring);
         if (matcher.find()) {
             calVal = Integer.valueOf(matcher.group());
         }
@@ -31,7 +55,7 @@ public class Calibration {
      * a 2-digit number, if there is at least one digit in the string.
      * 0, if there is no digit in the string at all
      */
-    public static int getLastDigit (String aSring) {
+    public static int getLastDigit(String aSring) {
         return get1stDigit(new StringBuilder(aSring).reverse().toString());
     }
 
@@ -44,13 +68,31 @@ public class Calibration {
      * a 2-digit number, if there is at least one digit in the string.
      * 0, if there is no digit in the string at all
      */
-    public static int getCalVal (String calibrationStr) {
+    public static int getCalVal(String calibrationStr) {
         int calVal = 0;
         int d1 = 0;
         int d2 = 0;
+        String firstMatch = null;
+        String lastMatch = null;
+        String leftSearchPattern = "(?=\\d|zero|one|two|three|four|five|six|seven|eight|nine)";
+        String rightSearchPattern = "(?=eight|one)";
 
-        d1 = get1stDigit(calibrationStr);
-        d2 = getLastDigit(calibrationStr);
+        Matcher matcher = Pattern.compile(leftSearchPattern)
+                .matcher(calibrationStr);
+        if (matcher.find()) {
+            firstMatch = matcher.group();
+            lastMatch = firstMatch;
+
+            d1 = toInt(firstMatch);
+            System.out.print(" d1 = " + d1);
+
+            while (matcher.find()) {
+                lastMatch = matcher.group();
+            }
+
+            d2 = toInt(lastMatch);
+            System.out.print(" d2 = " + d2 + ";");
+        }
 
         calVal = d1 * 10 + d2;
         return calVal;
