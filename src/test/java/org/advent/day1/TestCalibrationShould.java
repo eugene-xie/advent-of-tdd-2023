@@ -92,6 +92,8 @@ public class TestCalibrationShould {
         assertThat(calValue, equalTo(12));
         calValue = Calibration.getCalVal("a1btwo");
         assertThat(calValue, equalTo(12));
+        calValue = Calibration.getCalVal("oneight");
+        assertThat(calValue, equalTo(18));
 
     }
 }

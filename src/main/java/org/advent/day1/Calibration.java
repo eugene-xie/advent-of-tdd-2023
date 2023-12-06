@@ -5,13 +5,6 @@ import java.util.regex.Pattern;
 
 public class Calibration {
 
-    public static void main(String[] args) {
-        int d1 = 0;
-
-        d1 = getCalVal("9oneight");
-        System.out.println(d1);
-    }
-
     public static int toInt(String intStr) {
         String[] numbers = { "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine" };
         int d1 = 0;
@@ -74,24 +67,20 @@ public class Calibration {
         int d2 = 0;
         String firstMatch = null;
         String lastMatch = null;
-        String leftSearchPattern = "(?=\\d|zero|one|two|three|four|five|six|seven|eight|nine)";
-        String rightSearchPattern = "(?=eight|one)";
+        String leftSearchPattern = "(?=(\\d|zero|one|two|three|four|five|six|seven|eight|nine))";
 
         Matcher matcher = Pattern.compile(leftSearchPattern)
                 .matcher(calibrationStr);
         if (matcher.find()) {
-            firstMatch = matcher.group();
+            firstMatch = matcher.group(1);
             lastMatch = firstMatch;
 
             d1 = toInt(firstMatch);
-            System.out.print(" d1 = " + d1);
 
             while (matcher.find()) {
-                lastMatch = matcher.group();
+                lastMatch = matcher.group(1);
             }
-
             d2 = toInt(lastMatch);
-            System.out.print(" d2 = " + d2 + ";");
         }
 
         calVal = d1 * 10 + d2;
